@@ -1,0 +1,18 @@
+{
+"dev" : {
+        "driver": "pg",
+        "host": "127.0.0.1",
+        "user": "full_stack_user",
+        "database": "full_stack_dev",
+        "password": "password123"
+    
+ },
+"test" : {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "user": {"ENV": "POSTGRES_TEST_USER"},
+    "database": {"ENV": "POSTGRES_TEST_DB"},
+    "password": "password1234"
+
+}
+}

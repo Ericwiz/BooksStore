@@ -1,0 +1,38 @@
+{
+  "name": "bookstore_backend",
+  "version": "1.0.0",
+  "description": "This is a book store database that stores a list of books with the book information with postgres",
+  "main": "server.ts",
+  "author": "ericWiz (wisdomagu44@gmail.com)",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon src/server env=dev",
+    "up": "db-migrate up -e test",
+    "drop": "db-migrate down -e test",
+    "jasmine": "db-migrate up -e test && jasmine build/models/tests/*.js --random=false ENV=test && db-migrate db:drop test && yarn run drop && yarn run drop",
+    "test": "yarn jasmine"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.1",
+    "db-migrate-pg": "^1.2.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jasmine": "3.5.0",
+    "jasmine-spec-reporter": "^6.0.0",
+    "jasmine-ts": "^0.4.0",
+    "jsonwebtoken": "^9.0.0",
+    "nodemon": "^2.0.20",
+    "pg": "^8.9.0",
+    "typescript": "^4.9.4"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/express": "^4.17.16",
+    "@types/jasmine": "^4.3.1",
+    "@types/jsonwebtoken": "^9.0.1",
+    "@types/node": "^18.11.18",
+    "@types/pg": "^8.6.6",
+    "ts-node": "8.10.2"
+  }
+}

@@ -1,0 +1,43 @@
+import { Request, Response } from "express"; 
+import { UserStore, User } from "../models/users";
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config()
+const user = new UserStore()
+
+export const index = async(_req: Request, res: Response) => {
+    try {
+        const myUsers = await user.index();
+        res.json(myUsers);
+    } catch (error) {
+        throw new Error(`${error}`);
+        
+    }
+}
+
+export const create = async(req: Request, res: Response) => {
+    const myUser: User = {
+        username: req.body.username,
+        email: req.body.email,
+        pass: req.body.password
+    }
+    try {
+        const newUser = await user.create(myUser)
+        // @ts-ignore
+        const token = jwt.sign({user: newUser}, process.env.TOKEN_SECRET)
+        res.json(token)
+    } catch (error) {
+        throw new Error(`${error}`);
+        
+    }
+}
+
+export const authenticate = async(req: Request, res: Response) => {
+    try {
+        const myUser = await user.authenticate(req.body.pass, req.body.name)
+        res.json(myUser)
+    } catch (error) {
+        throw new Error(`${error}`);
+        
+    }
+}
