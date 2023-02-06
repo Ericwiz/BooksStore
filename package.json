@@ -7,9 +7,8 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon src/server env=dev",
-    "up": "db-migrate up -e test",
-    "drop": "db-migrate down -e test",
-    "jasmine": "db-migrate up -e test && jasmine build/models/tests/*.js --random=false ENV=test && db-migrate db:drop test && yarn run drop && yarn run drop",
+    "drop": "db-migrate down -c 5",
+    "jasmine": "jasmine build/models/tests/*.js --random=false ENV=test && db-migrate db:drop test && db-migrate down -c 5 -e test",
     "test": "yarn jasmine"
   },
   "dependencies": {

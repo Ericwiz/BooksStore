@@ -95,7 +95,7 @@ const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoi
             });
         }));
         it('delete method should remove the book', () => __awaiter(void 0, void 0, void 0, function* () {
-            books.deleteBook("1");
+            yield books.deleteBook("1");
             const result = yield books.index();
             expect(result).toEqual([]);
         }));

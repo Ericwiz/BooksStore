@@ -55,12 +55,13 @@ export class UserStore {
                 const result = await conn.query(sql, [u.username, u.email, hash]);
                 conn.release();
                 return result.rows[0]; 
-            }
-            
-            
-            const result = await conn.query(sql, [u.username, u.email, u.pass]);
+            } 
+                
+            const result = await conn.query(sql, [u.username, u.email, u.pass]);    
             conn.release();
             return result.rows[0];
+            
+            
         } catch (error) {
             throw new Error(`Could not create user ${u.username}, Error: ${error}`); 
         }

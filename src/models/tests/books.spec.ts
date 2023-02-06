@@ -95,7 +95,7 @@ describe("Test For The Books Table Model", ()=>{
 })
 
   it('delete method should remove the book', async () => {
-    books.deleteBook("1");
+   await books.deleteBook("1");
     const result = await books.index()
 
     expect(result).toEqual([]);

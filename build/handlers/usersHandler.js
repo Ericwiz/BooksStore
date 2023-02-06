@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authenticate = exports.create = exports.index = void 0;
+exports.authenticate = exports.remove = exports.update = exports.show = exports.create = exports.index = void 0;
 const users_1 = require("../models/users");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -45,6 +45,44 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.create = create;
+const show = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const myUser = yield user.show(req.params.id);
+        res.json(myUser);
+    }
+    catch (error) {
+        throw new Error(`${error}`);
+    }
+});
+exports.show = show;
+const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const myUser = {
+        // @ts-ignore
+        id: req.params.id,
+        email: req.body.email,
+        username: req.body.username,
+        pass: req.body.password
+    };
+    try {
+        const updatedUser = yield user.update(myUser);
+        res.json(updatedUser);
+    }
+    catch (error) {
+        throw new Error(`${error}`);
+    }
+});
+exports.update = update;
+const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield user.deleteUser(req.params.id);
+        const myUser = yield user.index();
+        res.json(`Deleted user successfully. ${myUser}`);
+    }
+    catch (error) {
+        throw new Error(`${error}`);
+    }
+});
+exports.remove = remove;
 const authenticate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const myUser = yield user.authenticate(req.body.pass, req.body.name);

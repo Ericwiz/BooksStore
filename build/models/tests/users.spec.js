@@ -108,18 +108,18 @@ describe("Test For The Users Table Model", () => {
             const response = yield request.post('/users/authenticate');
             expect(response.status).toBe(200);
         }));
-        //   it('expects /books/:id to be 200', async () => {
-        //     const response = await request.get('/books/1');
-        //     expect(response.status).toBe(200)
-        //   })
-        //  it('expects /users/:id to be 200', async () => {
-        //    const response = await request.put('/users/1').set("Authorization", `Bearer ${token}`)
-        //    expect(response.status).toBe(200)
-        //  })
-        //  it('expects /users/:id to be 200', async () => {
-        //    const response = await request.delete('/users/1').set("Authorization", `Bearer ${token}`)
-        //    expect(response.status).toBe(200)
-        //  })
+        it('expects /users/:id to be 200', () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield request.get('/books/1');
+            expect(response.status).toBe(200);
+        }));
+        it('expects /users/:id to be 200', () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield request.put('/users/1').set("Authorization", `Bearer ${token}`);
+            expect(response.status).toBe(200);
+        }));
+        it('expects /users/:id to be 200', () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield request.delete('/users/1').set("Authorization", `Bearer ${token}`);
+            expect(response.status).toBe(200);
+        }));
     });
 });
 // 
