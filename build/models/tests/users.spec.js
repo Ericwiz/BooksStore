@@ -8,9 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const users_1 = require("../users");
+const supertest_1 = __importDefault(require("supertest"));
+const server_1 = __importDefault(require("../../server"));
+const request = (0, supertest_1.default)(server_1.default);
 const user = new users_1.UserStore();
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiQWd1IHdpeiIsImVtYWlsIjoid2l6QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJGVrazV3bUE5ZFpYclc1T1l6NDJQNy5yY2RuYUptWkxoMUlaMUN3WTcwY0l5djFhblBkeDBxIiwiaWQiOjF9LCJpYXQiOjE2NzU1MTkyMjl9.svC60NMiAJfsUKmDSkUo1sJ9Abs6RH731X1_Wxrni-4";
 describe("Test For The Users Table Model", () => {
     describe('Test to ensure that all method for CRUD exists', () => {
         it('expects users index method to be defined', () => {
@@ -87,6 +94,32 @@ describe("Test For The Users Table Model", () => {
             const users = yield user.index();
             expect(users).toEqual([]);
         }));
+    });
+    describe('Endpoint test', () => {
+        it('expects /users/ to be 200', () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield request.post('/books').set("Authorization", `Bearer ${token}`);
+            expect(response.status).toBe(200);
+        }));
+        it('expects /users to be 200', () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield request.get('/users');
+            expect(response.status).toBe(200);
+        }));
+        it('expects /users/authenticate to be 200', () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield request.post('/users/authenticate');
+            expect(response.status).toBe(200);
+        }));
+        //   it('expects /books/:id to be 200', async () => {
+        //     const response = await request.get('/books/1');
+        //     expect(response.status).toBe(200)
+        //   })
+        //  it('expects /users/:id to be 200', async () => {
+        //    const response = await request.put('/users/1').set("Authorization", `Bearer ${token}`)
+        //    expect(response.status).toBe(200)
+        //  })
+        //  it('expects /users/:id to be 200', async () => {
+        //    const response = await request.delete('/users/1').set("Authorization", `Bearer ${token}`)
+        //    expect(response.status).toBe(200)
+        //  })
     });
 });
 // 

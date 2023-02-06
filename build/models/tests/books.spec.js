@@ -8,10 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const node_test_1 = require("node:test");
 const books_1 = require("../books");
+const supertest_1 = __importDefault(require("supertest"));
+const server_1 = __importDefault(require("../../server"));
+const request = (0, supertest_1.default)(server_1.default);
 const books = new books_1.Bookstore();
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiQWd1IHdpeiIsImVtYWlsIjoid2l6QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJGVrazV3bUE5ZFpYclc1T1l6NDJQNy5yY2RuYUptWkxoMUlaMUN3WTcwY0l5djFhblBkeDBxIiwiaWQiOjF9LCJpYXQiOjE2NzU1MTkyMjl9.svC60NMiAJfsUKmDSkUo1sJ9Abs6RH731X1_Wxrni-4";
 (0, node_test_1.describe)("Test For The Books Table Model", () => {
     (0, node_test_1.describe)("Test to ensure that all method for CRUD exists", () => {
         it("expects book to have an index method", () => {
@@ -91,6 +98,28 @@ const books = new books_1.Bookstore();
             books.deleteBook("1");
             const result = yield books.index();
             expect(result).toEqual([]);
+        }));
+    });
+    (0, node_test_1.describe)('It should test all Endpoints', () => {
+        it('expects /books to be 200', () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield request.get('/books');
+            expect(response.status).toBe(200);
+        }));
+        it('expects /books/:id to be 200', () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield request.get('/books/1');
+            expect(response.status).toBe(200);
+        }));
+        it('expects /books/:id to be 200', () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield request.get('/books/1').set("Authorization", `Bearer ${token}`);
+            expect(response.status).toBe(200);
+        }));
+        it('expects /users/:id to be 200', () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield request.put('/books/1').set("Authorization", `Bearer ${token}`);
+            expect(response.status).toBe(200);
+        }));
+        it('expects /users/:id to be 200', () => __awaiter(void 0, void 0, void 0, function* () {
+            const response = yield request.delete('/books/1').set("Authorization", `Bearer ${token}`);
+            expect(response.status).toBe(200);
         }));
     });
 });

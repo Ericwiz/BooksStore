@@ -1,7 +1,13 @@
 import { describe } from "node:test";
 import { Book, Bookstore} from "../books";
+import supertest from 'supertest'
+import app from "../../server"; 
+
+const request = supertest(app)
 
 const books = new Bookstore()
+
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiQWd1IHdpeiIsImVtYWlsIjoid2l6QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJGVrazV3bUE5ZFpYclc1T1l6NDJQNy5yY2RuYUptWkxoMUlaMUN3WTcwY0l5djFhblBkeDBxIiwiaWQiOjF9LCJpYXQiOjE2NzU1MTkyMjl9.svC60NMiAJfsUKmDSkUo1sJ9Abs6RH731X1_Wxrni-4"
 
 describe("Test For The Books Table Model", ()=>{
     describe("Test to ensure that all method for CRUD exists", ()=>{
@@ -95,6 +101,33 @@ describe("Test For The Books Table Model", ()=>{
     expect(result).toEqual([]);
   });
 
+    })
+
+    describe('It should test all Endpoints', () => {
+      it('expects /books to be 200', async () => {
+        const response = await request.get('/books');
+        expect(response.status).toBe(200)
+      })
+
+      it('expects /books/:id to be 200', async () => {
+        const response = await request.get('/books/1');
+        expect(response.status).toBe(200)
+      })
+
+      it('expects /books/:id to be 200', async () => {
+        const response = await request.get('/books/1').set("Authorization", `Bearer ${token}`)
+        expect(response.status).toBe(200)
+      })
+
+     it('expects /users/:id to be 200', async () => {
+       const response = await request.put('/books/1').set("Authorization", `Bearer ${token}`)
+       expect(response.status).toBe(200)
+     })
+
+     it('expects /users/:id to be 200', async () => {
+       const response = await request.delete('/books/1').set("Authorization", `Bearer ${token}`)
+       expect(response.status).toBe(200)
+     })
     })
 })
 

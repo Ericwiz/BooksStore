@@ -32,6 +32,41 @@ export const create = async(req: Request, res: Response) => {
     }
 }
 
+export const show = async(req: Request, res:Response) => {
+    try {
+        const myUser = await user.show(req.params.id);
+        res.json(myUser)
+    } catch (error) {
+       throw new Error(`${error}`); 
+    }
+}
+
+export const update = async (req: Request, res: Response) => {
+    const myUser: User = {
+    // @ts-ignore
+    id: req.params.id,
+    email: req.body.email,
+    username: req.body.username,
+    pass: req.body.password
+        }
+    try {
+        const updatedUser = await user.update(myUser)
+        res.json(updatedUser)
+    } catch (error) {
+        throw new Error(`${error}`)
+    }
+}
+
+export const remove = async (req: Request, res: Response) => {
+    try {
+        await user.deleteUser(req.params.id);
+        const myUser = await user.index()
+        res.json(`Deleted user successfully. ${myUser}`)
+    } catch (error) {
+        throw new Error(`${error}`)
+    }
+}
+
 export const authenticate = async(req: Request, res: Response) => {
     try {
         const myUser = await user.authenticate(req.body.pass, req.body.name)
