@@ -6,6 +6,7 @@
   "author": "ericWiz (wisdomagu44@gmail.com)",
   "license": "MIT",
   "scripts": {
+    "build": "tsc",
     "start": "nodemon src/server env=dev",
     "drop": "db-migrate down -c 5",
     "jasmine": "jasmine build/models/tests/*.js --random=false ENV=test && db-migrate db:drop test && db-migrate down -c 5 -e test",
