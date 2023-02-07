@@ -78,18 +78,18 @@ export class OrdersStore {
         }
     }
 
-    async addProduct(qauntity: number, orderId: string, productId: string): Promise<Orders> {
+    async addProduct(quantity: number, orderId: string, productId: string): Promise<Orders> {
         try {
-            const sql = 'INSERT INTO order_products (quantity, product_id, order_id) VALUES($1, $2, $3) RETURNING *'
+            const sql = 'INSERT INTO order_products (quantity, product_id, orders_id) VALUES($1, $2, $3) RETURNING *'
 
             // @ts-ignore
             const conn = await client.connect();
-            const result = conn.query(sql, [qauntity, productId, orderId]);
+            const result = await conn.query(sql, [quantity, productId, orderId]);
             conn.release()
             return result.rows[0]
+        
         } catch (error) {
-            throw new Error(`Could not add product ${productId} to order ${orderId}, Error: ${error}`);
-            
+            throw new Error(`Could not add product ${productId} to order r: ${error}`);
         }
     }
 }
